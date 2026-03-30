@@ -40,7 +40,8 @@ function Something({ onProceed }) {
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchmove', handleTouchMove);
     };
-  }, [step, onProceed, closeLetter2AndProceed]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step, onProceed]);
 
   const closeLetter2AndProceed = () => {
     setStep('letter2_closing');
