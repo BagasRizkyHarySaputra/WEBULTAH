@@ -1,10 +1,22 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Something from './page/something';
 import RemindMeOfYou from './page/remindmeofyou';
 
 function App() {
   const [canScrollToNext, setCanScrollToNext] = useState(false);
   const nextSectionRef = useRef(null);
+
+  useEffect(() => {
+    if (!canScrollToNext) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto'; // Pastikan bisa scroll
+    }
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [canScrollToNext]);
 
   const handleProceedToNext = () => {
     setCanScrollToNext(true);
@@ -16,7 +28,7 @@ function App() {
 
   // Kunci scroll body jika belum boleh ke next page
   return (
-    <div style={{ minHeight: '100vh', background: '#FFFDF1', overflowY: canScrollToNext ? 'auto' : 'hidden', height: canScrollToNext ? 'auto' : '100vh' }}>
+    <div style={{ minHeight: '100vh', background: '#FFFDF1' }}>
       <Something onProceed={handleProceedToNext} />
       {canScrollToNext && (
         <div ref={nextSectionRef}>

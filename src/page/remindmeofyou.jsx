@@ -53,42 +53,44 @@ function RemindMeOfYou() {
   };
 
   return (
-    <div 
-      className="remindmeofyou-body" 
-      style={{ position: 'relative', overflow: 'hidden' }}
-      onTouchStart={(e) => handlePointerDown(e.touches[0].clientX)}
-      onTouchEnd={(e) => handlePointerUp(e.changedTouches[0].clientX)}
-      onMouseDown={(e) => handlePointerDown(e.clientX)}
-      onMouseUp={(e) => handlePointerUp(e.clientX)}
-      onMouseLeave={(e) => {
-        if (touchStartRef.current !== null) {
-          handlePointerUp(e.clientX);
-        }
-      }}
-    >
-      <div className="remindmeofyou-corner left" />
-      <div className="remindmeofyou-corner right" />
-      
-      <div className="remindmeofyou-sidebar">
-        <div className={`sidebar-item index0${activeIndex === 0 ? ' active' : ''}`} onClick={() => changeSection(0)} style={{cursor: 'pointer'}}>
-          <div className={`sidebar-dot${activeIndex === 0 ? ' filled' : ''}`}></div>
-          {activeIndex === 0 && <span className="sidebar-text">Song</span>}
-        </div>
-        <div className={`sidebar-item index1${activeIndex === 1 ? ' active' : ''}`} onClick={() => changeSection(1)} style={{cursor: 'pointer'}}>
-          <div className={`sidebar-dot${activeIndex === 1 ? ' filled' : ''}`}></div>
-          {activeIndex === 1 && <span className="sidebar-text">Char</span>}
-        </div>
-        <div className={`sidebar-item index2${activeIndex === 2 ? ' active' : ''}`} onClick={() => changeSection(2)} style={{cursor: 'pointer'}}>
-          <div className={`sidebar-dot${activeIndex === 2 ? ' filled' : ''}`}></div>
-          {activeIndex === 2 && <span className="sidebar-text">University</span>}
-        </div>
-        <div className={`sidebar-item index3${activeIndex === 3 ? ' active' : ''}`} onClick={() => changeSection(3)} style={{cursor: 'pointer'}}>
-          <div className={`sidebar-dot${activeIndex === 3 ? ' filled' : ''}`}></div>
-          {activeIndex === 3 && <span className="sidebar-text">Anjayyy</span>}
+    <div className="remindmeofyou-page-wrapper">
+      <div className="remindmeofyou-sidebar-container">
+        <div className="remindmeofyou-sidebar">
+          <div className={`sidebar-item index0${activeIndex === 0 ? ' active' : ''}`} onClick={() => changeSection(0)} style={{cursor: 'pointer'}}>
+            <div className={`sidebar-dot${activeIndex === 0 ? ' filled' : ''}`}></div>
+            {activeIndex === 0 && <span className="sidebar-text">Song</span>}
+          </div>
+          <div className={`sidebar-item index1${activeIndex === 1 ? ' active' : ''}`} onClick={() => changeSection(1)} style={{cursor: 'pointer'}}>
+            <div className={`sidebar-dot${activeIndex === 1 ? ' filled' : ''}`}></div>
+            {activeIndex === 1 && <span className="sidebar-text">Char</span>}
+          </div>
+          <div className={`sidebar-item index2${activeIndex === 2 ? ' active' : ''}`} onClick={() => changeSection(2)} style={{cursor: 'pointer'}}>
+            <div className={`sidebar-dot${activeIndex === 2 ? ' filled' : ''}`}></div>
+            {activeIndex === 2 && <span className="sidebar-text">University</span>}
+          </div>
+          <div className={`sidebar-item index3${activeIndex === 3 ? ' active' : ''}`} onClick={() => changeSection(3)} style={{cursor: 'pointer'}}>
+            <div className={`sidebar-dot${activeIndex === 3 ? ' filled' : ''}`}></div>
+            {activeIndex === 3 && <span className="sidebar-text">Anjayyy</span>}
+          </div>
         </div>
       </div>
 
-      <h1 className="remindmeofyou-title">
+      <div 
+        className="remindmeofyou-body" 
+        onTouchStart={(e) => handlePointerDown(e.touches[0].clientX)}
+        onTouchEnd={(e) => handlePointerUp(e.changedTouches[0].clientX)}
+        onMouseDown={(e) => handlePointerDown(e.clientX)}
+        onMouseUp={(e) => handlePointerUp(e.clientX)}
+        onMouseLeave={(e) => {
+          if (touchStartRef.current !== null) {
+            handlePointerUp(e.clientX);
+          }
+        }}
+      >
+        <div className="remindmeofyou-corner left" />
+        <div className="remindmeofyou-corner right" />
+
+        <h1 className="remindmeofyou-title">
         Things That<br />Reminded Me of
       </h1>
       <div className="remindmeofyou-subtitle">You, anjay</div>
@@ -143,6 +145,7 @@ function RemindMeOfYou() {
         preload="auto" 
         onEnded={() => setIsPlaying(false)}
       />
+      </div>
     </div>
   );
 }

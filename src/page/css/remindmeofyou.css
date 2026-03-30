@@ -1,7 +1,11 @@
 @import url('./font.css');
 
+.remindmeofyou-page-wrapper {
+  position: relative;
+  width: 100vw;
+}
+
 .remindmeofyou-body {
-  filter: drop-shadow(0 1vw 1vw rgba(0, 0, 0, 0.70));
   width: 100vw;
   height: 200vh;
   display: flex;
@@ -9,6 +13,9 @@
   align-items: center;
   background: #ffffff;
   padding-bottom: 20vh;
+  overflow: hidden;
+  position: relative;
+  filter: drop-shadow(0 1vw 1vw rgba(0, 0, 0, 0.70));
 }
 
 .remindmeofyou-title {
@@ -108,19 +115,29 @@
   transform: translate(-50%, -50%) scale(0.92);
 }
 
+.remindmeofyou-sidebar-container {
+  position: absolute;
+  top: 20vw;
+  bottom: 0;
+  left: 0;
+  width: 10vw;
+  pointer-events: none;
+  z-index: 100;
+}
+
 .remindmeofyou-sidebar {
-  position: fixed;
-  left: 3vw;
-  top: 50%;
+  position: sticky;
+  top: 50vh;
   transform: translateY(-50%);
   width: 4.5vw;
-  background: #ffffff;
+  margin-left: 3vw;
+  border-radius: 2vw;
   display: flex;
   flex-direction: column;
+  pointer-events: auto;
   align-items: center;
   padding: 1.5vw 0;
   gap: 1.5vw;
-  z-index: 10;
 }
 
 .sidebar-item {
@@ -345,13 +362,31 @@
     max-width: 18vw;
     max-height: 18vw;
   }
+  .remindmeofyou-sidebar-container {
+    width: 16vw;
+    min-width: 48px;
+    max-width: 80px;
+    left: 0;
+    top: 20vh;
+    bottom: 0;
+    position: absolute;
+    z-index: 100;
+    pointer-events: none;
+  }
   .remindmeofyou-sidebar {
-    top: 50%;
-    left: 2vw;
-    width: 8vw;
-    border-width: 0.3vw;
-    padding: 3vw 0;
-    gap: 3vw;
+    position: sticky;
+    top: 50vh;
+    transform: translateY(-50%);
+    margin-left: 0;
+    margin-top: 0;
+    width: 100%;
+    border-radius: 2vw;
+    padding: 2vw 0;
+    gap: 4vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: auto;
   }
   .sidebar-dot {
     width: 4vw;
