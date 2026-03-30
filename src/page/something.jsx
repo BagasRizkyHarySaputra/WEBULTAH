@@ -40,7 +40,7 @@ function Something({ onProceed }) {
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchmove', handleTouchMove);
     };
-  }, [step, onProceed]);
+  }, [step, onProceed, closeLetter2AndProceed]);
 
   const closeLetter2AndProceed = () => {
     setStep('letter2_closing');
