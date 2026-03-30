@@ -1,0 +1,563 @@
+
+@import url('./font.css');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent; /* Menghilangkan highlight biru di mobile */
+}
+
+.something-body {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  gap: 10vw; /* Jarak antara pembungkus utama dan debug container */
+  justify-content: center;
+  align-items: center;
+  font-family: sans-serif;
+  padding: 5vw 0;
+  position: relative;
+}
+
+/* Container untuk debug visual letter di bawah card */
+.debug-container {
+  height: 20vw;
+  width: 32vw;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  z-index: 0;
+}
+
+@media (max-width: 768px) {
+  .debug-container {
+    width: 92vw;
+    height: 60vw;
+  }
+}
+
+.wrapper {
+  height: 20vw;
+  width: 32vw;
+  background-color: #fcfcfd;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  z-index: 0;
+}
+
+.lid {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  transform-origin: top;
+  transition: transform 0.25s linear;
+}
+
+/* Lid when closed */
+.lid.one {
+  z-index: 5;
+  transition-delay: 0.75s;
+  filter: drop-shadow(0 0.8vw 0.5vw rgba(0, 0, 0, 0.4));
+}
+.lid.one::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 10vw; /* Setengah dari 20vw agar pas */
+  background-image: url('../assets/paper.png');
+  background-size: cover;
+  clip-path: polygon(0 0, 100% 0, 75% 100%, 25% 100%);
+}
+
+/* Lid when opened */
+.lid.two {
+  z-index: 1;
+  transition-delay: 0.5s;
+  transform: rotateX(90deg);
+}
+.lid.two::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 10vw; /* Setengah dari 20vw agar pas */
+  background-image: url('../assets/paper.png');
+  background-size: cover;
+  clip-path: polygon(0 0, 100% 0, 75% 100%, 25% 100%);
+}
+
+/* Lid three (bawah) menjadi bentuk trapesium */
+.lid.three {
+  position: absolute;
+  top: auto;
+  bottom: 0;
+  left: 0;
+  width: 100%; /* Total 32vw */
+  height: 10vw; /* setengah dari 20vw */
+  z-index: 4;
+  filter: drop-shadow(0 -0.5vw 0.5vw rgba(0, 0, 0, 0.3));
+}
+.lid.three::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-image: url('../assets/paper.png');
+  background-size: cover;
+  clip-path: polygon(0 100%, 100% 100%, 75% 0, 25% 0);
+}
+
+/* Bagian stempel lilin / wax seal */
+.lid.seal {
+  z-index: 6; /* di atas semua penutup saat tertutup */
+  transform: rotateX(0deg);
+  transition: transform 0.5s linear 0.5s, z-index 0s linear 0.75s; /* bareng dengan flap menutup secara bertahap */
+}
+
+.wax-seal-img {
+  position: absolute;
+  top: 10vw; /* berada di ujung penutup atas */
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(0deg);
+  width: 5vw;
+  height: auto;
+  filter: drop-shadow(0 0.4vw 0.4vw rgba(0, 0, 0, 0.5));
+  transition: transform 0.5s linear 1.0s; /* berputar kembali ke semula setelah amplop tertutup penuh */
+}
+
+.envelope {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  z-index: 3;
+  filter: drop-shadow(0 0.2vw 0.5vw rgba(0, 0, 0, 0.3));
+}
+.envelope::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background-image: url('../assets/paper.png');
+  background-size: cover;
+  clip-path: polygon(0 0, 0 100%, 100% 50%);
+}
+.envelope::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  background-image: url('../assets/paper.png');
+  background-size: cover;
+  clip-path: polygon(100% 0, 100% 100%, 0 50%);
+}
+
+.letter {
+  position: absolute;
+  border-radius: 1vw;
+  z-index: 2;
+  transition: transform 0.5s linear 0s; /* seketika turun ke bawah saat hover ilang */
+}
+
+.letter.letter2 {
+  top: 0;
+  width: 86%;
+  height: 90%;
+  background: linear-gradient(180deg, #FDF7EB 0%, #E7F3FF 100%); /* menggunakan background, bukan background-color */
+  border: none;
+  box-shadow: 0 0 0.5vw rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.group19-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 1vw;
+  box-sizing: border-box;
+}
+
+.letter.letter1 {
+  top: 1.5vw; /* agak turun sedikit dari letter2 agar letter2 kelihatan sbg bingkai di bagian atas */
+  width: 86%;
+  height: 90%;
+  background: linear-gradient(180deg, #E7F3FF 0%, #FDF7EB 100%); /* warna kebiruan cerah/putih untuk isi surat */
+  border: none;
+  box-shadow: 0 0 0.8vw rgba(0, 0, 0, 0.4);
+  padding: 1vw 1.5vw;
+  box-sizing: border-box;
+}
+
+.letter-content {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+}
+
+.letter-left {
+  width: 40%; 
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: center;
+}
+
+.letter-right {
+  width: 60%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-left: 1.5vw;
+  padding-top: 1.5vw;
+  justify-content: flex-start;
+}
+
+.message-text {
+  font-family: 'Lora', serif;
+  font-weight: 400;
+  font-size: 0.55vw;
+  color: #2b3a4a;
+  line-height: 1.5;
+  text-align: center;
+  letter-spacing: 0.05vw;
+  margin: 0;
+  margin-bottom: 0vw;
+  text-shadow: 0vw 0.05vw 0.02vw rgba(0, 0, 0, 0.5);
+}
+
+.message-text strong {
+  font-weight: 700;
+}
+
+.message-text.tight-money {
+  text-align: center;
+  margin-top: 1vw;
+}
+
+.sincerely-text {
+  font-family: 'Love Light', cursive;
+  font-weight: 400;
+  font-size: 1.5vw;
+  color: #2A3E55;
+  text-align: right;
+  margin-top: 0.3vw;
+  margin-right: 0.3vw;
+  text-shadow: 0 0.5vw 0.1vw rgba(0,0,0,0.3);
+  rotate: -7deg;
+}
+
+.happy-text {
+  font-family: 'Lora', serif;
+  font-weight: 400;
+  font-size: 1.8vw;
+  color: #2b3a4a;
+  letter-spacing: 0.1vw;
+  margin-top: 1vw;
+  margin-left: 1vw;
+  align-self: flex-start;
+  text-shadow: 0 0.8vw 0.2vw rgba(0,0,0,0.4);
+}
+
+.sweet-text {
+  font-family: 'Love Light', cursive;
+  font-size: 2.5vw;
+  color: #2b3a4a;
+  margin: 0;
+  rotate: -10deg;
+  margin-top: -0.8vw;
+  margin-left: 1vw;
+  text-shadow: 0 0.8vw 0.2vw rgba(0,0,0,0.4);
+}
+
+.balloon-img {
+  width: 9vw;
+  height: auto;
+  margin-top: -1.5vw;
+  margin-left: -2vw;
+  filter: drop-shadow(0 0.4vw 0.4vw rgba(0,0,0,0.3));
+}
+
+.bottom-text {
+  font-family: 'Lora', serif;
+  font-size: 0.9vw;
+  color: #2b3a4a;
+  letter-spacing: 0.05vw;
+  margin-top: auto; /* Pin ke paling bawah */
+  margin-bottom: 1vw;
+  text-align: center;
+  text-shadow: 0 0.5vw 0.1vw rgba(0,0,0,0.3);
+}
+
+.wrapper:hover .lid.one, .wrapper.locked .lid.one {
+    transform: rotateX(90deg);
+    transition-delay: 0.5s;
+}
+
+.wrapper:hover .lid.two, .wrapper.locked .lid.two {
+    transform: rotateX(180deg);
+    transition-delay: 0.75s;
+}
+
+.wrapper:hover .lid.seal, .wrapper.locked .lid.seal {
+    transform: rotateX(180deg);
+    z-index: 0; /* pindah ke belakang lid 1 (dan belakang kertas & envelope jika dibuka) */
+    transition: transform 0.5s linear 0.5s, z-index 0s linear 0.75s;
+}
+
+.wrapper:hover .wax-seal-img, .wrapper.locked .wax-seal-img {
+    transform: translate(-50%, -50%) rotate(180deg); /* berputar pada posisinya (2D) */
+    transition: transform 0.5s linear 0s; /* berputar pada 0.5 detik pertama, barulah flap lid mulai terbuka */
+}
+
+.wrapper:hover .letter:not(.extracted):not(.closing), .wrapper.locked .letter:not(.extracted):not(.closing) {
+  transform: translateY(-5vw);
+  transition: transform 0.5s linear 1.0s; /* setelah semuanya terbuka baru isinya naik */
+}
+
+.letter.extracted {
+  transform-origin: center;
+  animation: extract-letter-desktop 0.8s ease-in-out forwards;
+}
+
+.letter.closing {
+  transform-origin: center;
+  animation: close-letter-desktop 0.8s ease-in-out forwards;
+}
+
+@keyframes extract-letter-desktop {
+  0% {
+    transform: translateY(-5vw) translateX(0) rotate(0deg) scale(1);
+    z-index: 2;
+  }
+  49.9% {
+    z-index: 2;
+  }
+  50% {
+    transform: translateX(20vw);
+    transform: translateY(-40vw)  rotate(60deg) scale(1);
+    z-index: 100;
+  }
+  100% {
+    transform: translateY(2vw) translateX(0) rotate(0deg) scale(1.5);
+    z-index: 100;
+  }
+}
+
+@keyframes close-letter-desktop {
+  0% {
+    transform: translateY(2vw) translateX(0) rotate(0deg) scale(1.5);
+    z-index: 100;
+  }
+  49.9% {
+    z-index: 100;
+  }
+  50% {
+    transform: translateX(-20vw);
+    transform: translateY(-40vw)  rotate(-45deg) scale(1);
+    z-index: 2;
+  }
+  100% {
+    transform: translateY(-5vw) translateX(0) rotate(0deg) scale(1);
+    z-index: 2;
+  }
+}
+
+.swipe-up-text {
+  position: absolute;
+  bottom: 8%; /* taruh dengan pasti di bagian bawah layar */
+  font-family: 'Love Light', cursive;
+  font-size: 3vw;
+  color: #2A3E55;
+  text-shadow: 0 0.2vw 0.2vw rgba(0,0,0,0.2);
+  opacity: 0;
+  animation: 
+    fade-in-swipe 1s ease-out 1.5s forwards,
+    pulse-swipe 2s infinite ease-in-out 2.5s;
+}
+
+@keyframes fade-in-swipe {
+  0% { opacity: 0; transform: translateY(1.5vw); }
+  100% { opacity: 0.8; transform: translateY(0); }
+}
+
+@keyframes pulse-swipe {
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.15); opacity: 1; text-shadow: 0 0.5vw 0.3vw rgba(0,0,0,0.3); }
+  100% { transform: scale(1); opacity: 0.8; }
+}
+
+/* Responsif untuk tampilan HP (layar lebih kecil dari 768px) */
+@media (max-width: 768px) {
+  /* CARD */
+  .wrapper {
+    width: 92vw;
+    height: 60vw;
+  }
+  .lid {
+    /* dihapus border, karena pindah ke properti clip-path */
+  }
+
+  .lid.one::after {
+    height: 30vw; /* Setengah dari 60vw wrapper di mobile */
+    clip-path: polygon(0 0, 100% 0, 75% 100%, 25% 100%);
+  }
+
+  .lid.two::after {
+    height: 30vw; /* Setengah dari 60vw wrapper di mobile */
+    clip-path: polygon(0 0, 100% 0, 75% 100%, 25% 100%);
+  }
+
+  .lid.three {
+    height: 30vw; /* Setengah dari 60vw wrapper di mobile */
+    filter: drop-shadow(0 -1vw 1vw rgba(0, 0, 0, 0.4));
+  }
+  .lid.three::after {
+    clip-path: polygon(0 100%, 100% 100%, 75% 0, 25% 0);
+  }
+
+  .envelope {
+    filter: drop-shadow(0 0.5vw 1vw rgba(0, 0, 0, 0.4));
+  }
+  .envelope::before {
+    clip-path: polygon(0 0, 0 100%, 100% 50%);
+  }
+
+  .envelope::after {
+    clip-path: polygon(100% 0, 100% 100%, 0 50%);
+  }
+
+  .wax-seal-img {
+    top: 30vw; /* mengikuti ujung penutup atas yang baru */
+    width: 14vw; /* sesuaikan perbesaran gambar seal */
+  }
+  .letter {
+    border: none;
+    border-radius: 3vw;
+  }
+  /* LETTER2 */
+  .letter.letter2 {
+    box-shadow: 0 0 1vw rgba(0, 0, 0, 0.4);
+  
+    /* LETTTER1 */
+  }
+  .letter.letter1 {
+    top: 4vw; /* jarak selisih di mobile */
+    box-shadow: 0 0 1.5vw rgba(0, 0, 0, 0.4);
+  }
+
+  .group19-img {
+    padding: 2vw;
+  }
+
+  .letter p {
+    font-size: 6vw;
+    margin-top: 6vw;
+  }
+
+  .happy-text {
+    font-size: 6vw;
+    margin-left: 3vw;
+    margin-top: 2vw;
+  }
+  .sweet-text {
+    font-size: 7vw;
+    margin-top: -2vw;
+    margin-left: 8vw;
+  }
+  .balloon-img {
+    width: 25vw;
+  }
+  p.bottom-text {
+    font-size: 2.6vw; /* Sekarang kamu bisa ubah ini dan pasti akan berefek! */
+    margin-bottom: 4vw;
+    margin-top: auto;
+  }
+  p.message-text {
+  font-family: 'Lora', serif;
+  font-weight: 400;
+  font-size: 2vw;
+  color: #2b3a4a;
+  line-height: 1.5;
+  text-align: center;
+  letter-spacing: 0.05vw;
+  margin: 0;
+  margin-top: 2vw;
+  margin-left: -2vw;
+  margin-right: 2vw;
+  margin-bottom: 0vw;
+  text-shadow: 0vw 0.2vw 0.2vw rgba(0, 0, 0, 0.5);
+  }
+  p.sincerely-text {
+    font-size: 4vw;
+    margin-top: 2vw;
+  }
+
+  .wrapper:hover .letter:not(.extracted):not(.closing), .wrapper.locked .letter:not(.extracted):not(.closing) {
+    transform: translateY(-15vw);
+  }
+
+  .letter.extracted {
+    animation: extract-letter-mobile 0.8s ease-in-out forwards;
+  }
+
+  .letter.closing {
+    animation: close-letter-mobile 0.8s ease-in-out forwards;
+  }
+
+  @keyframes extract-letter-mobile {
+    0% {
+      transform: translateY(-15vw) translateX(0) rotate(0deg) scale(1);
+      z-index: 2;
+    }
+    49.9% {
+      z-index: 2;
+    }
+    50% {
+      transform: translateX(25vw);
+      transform: translateY(-90vw)  rotate(60deg) scale(1);
+      z-index: 100;
+    }
+    100% {
+      /* scale 1.14 dengan origin center akan otomatis berada di tengah, tidak perlu ditarik translateX berlebih */
+      transform: translateY(12vw) translateX(0) rotate(0deg) scale(1.14);
+      z-index: 100;
+    }
+  }
+
+  @keyframes close-letter-mobile {
+    0% {
+      transform: translateY(12vw) translateX(0) rotate(0deg) scale(1.14);
+      z-index: 100;
+    }
+    49.9% {
+      z-index: 100;
+    }
+    50% {
+      transform: translateX(-25vw);
+      transform: translateY(-90vw)  rotate(-60deg) scale(1);
+      z-index: 2;
+    }
+    100% {
+      transform: translateY(-15vw) translateX(0) rotate(0deg) scale(1);
+      z-index: 2;
+    }
+  }
+
+  .swipe-up-text {
+    font-size: 8vw;
+    bottom: 15%; /* Penyesuaian posisi di HP agar tidak tertutup */
+  }
+}
+

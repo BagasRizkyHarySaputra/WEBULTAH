@@ -1,0 +1,30 @@
+@font-face {
+  font-family: 'Lora';
+  src: url('../assets/font/Lora/Lora-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Lora';
+  src: url('../assets/font/Lora/Lora-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Lora';
+  src: url('../assets/font/Lora/Lora-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Lora';
+  src: url('../assets/font/Lora/Lora-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Love Light';
+  src: url('../assets/font/LoveLight/Love_Light/LoveLight-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
