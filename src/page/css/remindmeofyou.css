@@ -2,18 +2,19 @@
 
 .remindmeofyou-page-wrapper {
   position: relative;
-  width: 100vw;
+  width: 100%;
+  overflow: visible;
 }
 
 .remindmeofyou-body {
-  width: 100vw;
-  height: 200vh;
+  width: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   background: #ffffff;
   padding-bottom: 20vh;
-  overflow: hidden;
+  overflow: visible;
   position: relative;
   filter: drop-shadow(0 1vw 1vw rgba(0, 0, 0, 0.70));
 }
@@ -39,6 +40,7 @@
   rotate: -8deg;
 }
 
+
 .remindmeofyou-group17-wrap, .remindmeofyou-extra-section {
   position: relative;
   left: auto;
@@ -51,28 +53,20 @@
   align-items: center;
   justify-content: center;
   z-index: 2;
-  opacity: 0;
   margin-top: 10vw;
-  pointer-events: none;
+  margin-bottom: 6vw;
+  opacity: 1;
+  pointer-events: auto;
 }
 
-.remindmeofyou-group17-wrap.active, .remindmeofyou-extra-section.active {
-  animation: slideInFlashRelative 1s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+.remindmeofyou-group17-wrap.always-visible,
+.remindmeofyou-extra-section.always-visible {
+  opacity: 1;
   pointer-events: auto;
   display: flex;
-}
-
-.remindmeofyou-group17-wrap.leaving, .remindmeofyou-extra-section.leaving {
-  animation: slideOutFadeRelative 0.8s ease-in forwards;
-  pointer-events: none;
-  position: absolute;
-  top: 60vw;
-}
-
-.remindmeofyou-group17-wrap.hidden, .remindmeofyou-extra-section.hidden {
-  opacity: 0;
-  pointer-events: none;
-  display: none;
+  animation: none;
+  position: relative;
+  top: auto;
 }
 
 @keyframes slideInFlashRelative {
@@ -138,6 +132,7 @@
   align-items: center;
   padding: 1.5vw 0;
   gap: 1.5vw;
+  z-index: 100;
 }
 
 .sidebar-item {
@@ -252,42 +247,47 @@
   -webkit-text-stroke: 0.08vw #2A3E55;
   text-stroke: 0.08vw #2A3E55;
 }
+
 .section4-text1 {
-  position: center;
-  justify-content: center;
+  position: static;
+  display: block;
+  width: 100%;
   text-align: center;
-  left: 0%;
-  top: 0%;
   font-family: 'Lora', serif;
   font-weight: 400;
   font-size: 4.5vw;
-  margin-right: -4vw;
   color: #2A3E55;
+  margin-top: 30vw;
+  margin-bottom: 1vw;
+  white-space: normal;
 }
 .section4-text2 {
-  position: absolute;
-  left: 45%;
-  top: 88%;
-  rotate: -10deg;
+  position: static;
+  display: block;
+  width: 100%;
+  text-align: center;
   font-family: 'Love Light', cursive;
   font-weight: 700;
   font-size: 7vw;
-  text-align: right;
   color: #2A3E55;
-  margin-right: -20vw;
+  margin-bottom: 1vw;
+  margin-top: -3.5vw;
   filter: drop-shadow(0 0.8vw 0.2vw rgba(0,0,0,0.4));
+  rotate: -10deg;
+  /* margin-left: 10vw; */
 }
 .section4-text3 {
-  position: absolute;
-  left: 90%;
-  margin-right: -20vw;
-  top: 250%;
-  rotate: -10deg;
+  position: static;
+  display: block;
+  width: 100%;
+  text-align: Center;
   font-family: 'Love Light', cursive;
   font-weight: 400;
   font-size: 2.5vw;
-  text-align: center;
   color: #2A3E55;
+  margin-top: 3vw;
+  margin-left: 50vw;
+  rotate: -15deg;
 }
 
 .sidebar-text {
@@ -310,25 +310,26 @@
   margin-top: 5vw;
 }
 
-.remindmeofyou-spcode {
-  height: 5vw;
-  max-height: 100px;
-  filter: drop-shadow(0 0.5vw 1vw rgba(0,0,0,0.2));
-}
+.remindmeofyou-body {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #ffffff;
+  padding-bottom: 5vw;
+  overflow: hidden;
+  position: relative;
+  /* Remove drop-shadow at the bottom to avoid shadow cutoff */
+  box-shadow: 0 0.5vw 1vw rgba(0, 0, 0, 0.10);
 
-.remindmeofyou-scan-text {
-  font-family: 'Lora', serif;
-  font-weight: 700;
-  font-size: 2vw;
-  color: #2A3E55;
-  text-shadow: 0 0.1vw 0.1vw rgba(0,0,0,0.1);
 }
 
 /* Mobile responsive styles */
 @media (max-width: 600px) {
   .remindmeofyou-body {
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    min-height: 100vh;
     padding: 0 4vw;
     box-sizing: border-box;
   }
@@ -349,9 +350,13 @@
     width: 70vw;
     max-width: 90vw;
     margin-top: 30vw;
-  }
-  .remindmeofyou-group17-wrap.leaving, .remindmeofyou-extra-section.leaving {
-    top: 100vw;
+    margin-bottom: 10vw;
+    opacity: 1;
+    pointer-events: auto;
+    display: flex;
+    animation: none;
+    position: relative;
+    top: auto;
   }
   .remindmeofyou-playbtn {
     top: 37%;
@@ -387,6 +392,7 @@
     flex-direction: column;
     align-items: center;
     pointer-events: auto;
+    z-index: 100;
   }
   .sidebar-dot {
     width: 4vw;
@@ -415,7 +421,7 @@
     margin-top: 5vw;
   }
   .section3-img1 {
-  height: 45vw;
+    height: 45vw;
   }
   .section3-text1 {
     font-size: 3.5vw;
@@ -423,5 +429,20 @@
   .section3-text2 {
     font-size: 3.5vw;
     margin-right: -20vw;
+  }
+  
+  .section4-text1 {
+    font-size: 5.5vw;
+    margin-top: 60vw;
+  }
+  .section4-text2 {
+    font-size: 9vw;
+    margin-top: -3vw;
+  }
+  .section4-text3 {
+    font-size: 5vw;
+    margin-top: 8vw;
+    margin-left: 50vw;
+    margin-bottom: 30vh;
   }
 }

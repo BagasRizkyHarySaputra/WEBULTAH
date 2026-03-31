@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './css/remindmeofyou.css';
 import './css/remindmeofyou-corner.css';
 
@@ -7,40 +7,51 @@ function RemindMeOfYou() {
   const audioRef = useRef(null);
   
   const [activeIndex, setActiveIndex] = useState(0);
-  const [prevIndex, setPrevIndex] = useState(-1);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const touchStartRef = useRef(null);
 
-  const handlePointerDown = (clientX) => {
-    touchStartRef.current = clientX;
-  };
+  const section0Ref = useRef(null);
+  const section1Ref = useRef(null);
+  const section2Ref = useRef(null);
+  const section3Ref = useRef(null);
 
-  const handlePointerUp = (clientX) => {
-    if (touchStartRef.current === null || isAnimating) return;
-    const deltaX = touchStartRef.current - clientX;
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -40% 0px',
+      threshold: 0
+    };
+
+    const handleIntersect = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const index = parseInt(entry.target.getAttribute('data-index'), 10);
+          if (!isNaN(index)) {
+            setActiveIndex(index);
+          }
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(handleIntersect, observerOptions);
     
-    // Geser ke kiri (deltaX > 50) -> next
-    if (deltaX > 50 && activeIndex < 3) {
-      changeSection(activeIndex + 1);
-    } 
-    // Geser ke kanan (deltaX < -50) -> prev
-    else if (deltaX < -50 && activeIndex > 0) {
-      changeSection(activeIndex - 1);
-    }
-    
-    touchStartRef.current = null;
-  };
+    if (section0Ref.current) observer.observe(section0Ref.current);
+    if (section1Ref.current) observer.observe(section1Ref.current);
+    if (section2Ref.current) observer.observe(section2Ref.current);
+    if (section3Ref.current) observer.observe(section3Ref.current);
+
+    return () => observer.disconnect();
+  }, []);
 
   const changeSection = (index) => {
-    if (index === activeIndex) return;
-    setPrevIndex(activeIndex);
     setActiveIndex(index);
-    setIsAnimating(true);
+    let targetRef;
+    if (index === 0) targetRef = section0Ref;
+    if (index === 1) targetRef = section1Ref;
+    if (index === 2) targetRef = section2Ref;
+    if (index === 3) targetRef = section3Ref;
     
-    // Cooldown match animation duration
-    setTimeout(() => {
-      setIsAnimating(false);
-    }, 1000);
+    if (targetRef && targetRef.current) {
+      targetRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
   };
 
   const togglePlay = () => {
@@ -75,18 +86,7 @@ function RemindMeOfYou() {
         </div>
       </div>
 
-      <div 
-        className="remindmeofyou-body" 
-        onTouchStart={(e) => handlePointerDown(e.touches[0].clientX)}
-        onTouchEnd={(e) => handlePointerUp(e.changedTouches[0].clientX)}
-        onMouseDown={(e) => handlePointerDown(e.clientX)}
-        onMouseUp={(e) => handlePointerUp(e.clientX)}
-        onMouseLeave={(e) => {
-          if (touchStartRef.current !== null) {
-            handlePointerUp(e.clientX);
-          }
-        }}
-      >
+      <div className="remindmeofyou-body">
         <div className="remindmeofyou-corner left" />
         <div className="remindmeofyou-corner right" />
 
@@ -95,7 +95,9 @@ function RemindMeOfYou() {
       </h1>
       <div className="remindmeofyou-subtitle">You, anjay</div>
       
-      <div className={`remindmeofyou-group17-wrap ${activeIndex === 0 ? 'active' : (prevIndex === 0 ? 'leaving' : 'hidden')}`}>
+
+      {/* Section 1 */}
+      <div className="remindmeofyou-group17-wrap always-visible" ref={section0Ref} data-index={0}>
         <img
           src={require('./assets/Group 17.png')}
           alt="Group 17 decorative"
@@ -108,7 +110,6 @@ function RemindMeOfYou() {
           onClick={togglePlay}
           style={{ cursor: 'pointer' }}
         />
-        
         <div className="remindmeofyou-scan-wrap">
           <img
             src={require('./assets/spcode-2AVGJteukNmXt6lxPSOz27 1.png')}
@@ -120,20 +121,23 @@ function RemindMeOfYou() {
           </div>
         </div>
       </div>
-      
-      <div className={`remindmeofyou-extra-section ${activeIndex === 1 ? 'active' : (prevIndex === 1 ? 'leaving' : 'hidden')}`}>
+
+      {/* Section 2 */}
+      <div className="remindmeofyou-extra-section always-visible" ref={section1Ref} data-index={1}>
         <img src={require('./assets/Group 16.png')} alt="Group 16" />
         <p className="section2-text1">Udah bangun<br/>atau masih<br/>koma?</p>
         <p className="section2-text2">I remember u<br/>simp over this<br/>grandpa...</p>
       </div>
 
-      <div className={`remindmeofyou-extra-section ${activeIndex === 2 ? 'active' : (prevIndex === 2 ? 'leaving' : 'hidden')}`}>
+      {/* Section 3 */}
+      <div className="remindmeofyou-extra-section always-visible" ref={section2Ref} data-index={2}>
         <img className="section3-img1" src={require('./assets/image 15.png')} alt="Group 16" />
         <p className="section3-text1">Lesgo gurll, there’s<br/>nothing holding u<br/>back from<br/>achieving your<br/>dream university.</p>
         <p className="section3-text2">Manifesting u got<br/>accepted into<br/>UGM!!</p>      
       </div>
 
-      <div className={`remindmeofyou-extra-section ${activeIndex === 3 ? 'active' : (prevIndex === 3 ? 'leaving' : 'hidden')}`}>
+      {/* Section 4 */}
+      <div className="remindmeofyou-extra-section always-visible" ref={section3Ref} data-index={3} style={{ width: '100%', maxWidth: 'none', marginLeft: '-5vw' }}>
         <p className="section4-text1">Yaudah lah, pokoknya gitu.<br/>Met Ultah,</p>
         <p className="section4-text2">nyet</p>
         <p className="section4-text3">Sincerely, -H</p>
